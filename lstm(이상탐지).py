@@ -1,5 +1,5 @@
-# Deep learning requires large amounts of data for real-world applications. But smaller datasets are acceptable for basic study, especially since model training doesn’t take much time.
-
+##### Time Series Anomaly Detection with LSTM and MXNet
+### 함수, 모듈 불러오기
 import pandas as pd
 import numpy as np
 import json
@@ -12,7 +12,6 @@ from sklearn import preprocessing
 from sklearn.metrics import f1_score
 
 # Let’s describe all paths to datasets and labels:
-
 nab_path = './dataset/nab'
 nab_data_path = nab_path + '/data/'
 
@@ -21,16 +20,22 @@ training_file_name = 'realAWSCloudwatch/rds_cpu_utilization_e47b3b.csv'
 test_file_name = 'realAWSCloudwatch/rds_cpu_utilization_cc0c53.csv'
 
 # Anomaly labels are stored separately from the data values. Let’s load the train and test datasets and label the values with pandas:
-
+# 이미 만들어진 label을 불러옵니다
 labels_file = open(nab_path + labels_filename, 'r')
 labels = json.loads(labels_file.read())
 labels_file.close()
 
+# label을 trainset과 testset에 컬럼으로 만들어 줍니다
 def load_data_frame_with_labels(file_name):
     data_frame = pd.read_csv(nab_data_path + file_name)
-    data_frame['anomaly_label'] = data_frame['timestamp'].isin(
-        labels[file_name]).astype(int)
+    data_frame['anomaly_label'] = data_frame['timestamp'].isin(labels[file_name]).astype(int)
     return data_frame
+
+# df = pd.read_csv(nab_data_path + training_file_name)
+# df['anomaly_label'] = df['timestamp'].isin(labels[training_file_name]).astype('int')
+# df[df['anomaly_label'] == 1]
+# df['anomaly_label'][946]
+
 
 training_data_frame = load_data_frame_with_labels(training_file_name)
 test_data_frame = load_data_frame_with_labels(test_file_name)
@@ -92,6 +97,16 @@ training_data_frame.loc[training_data_frame['anomaly_label'] == 1, ['value_no_an
 training_data_frame['value_no_anomaly'][945]
 training_data_frame['value_no_anomaly'][946]
 
+########################################################################################################################
+# nan값 채우기
+
+# 결측값을 특정 값으로 채우기:   df.fillna(0)
+# 결측값을 앞 방향으로 채우기:   df.fillna(method: 'ffill' or 'pad')
+# 결측값을 뒷 방향으로 채우기:   df.fillna(method: 'bill' or 'backfill')
+# 결측값을 채우는 회수 제한하기: df.fillna(limit=1)
+# 결측값을 평균값으로 채우기:    df.fillna(df.mean())
+########################################################################################################################
+
 training_data_frame['value_no_anomaly'] = training_data_frame['value_no_anomaly'].fillna(method='ffill') # method 앞 값으로 채우기
 
 training_data_frame['value'] = training_data_frame['value_no_anomaly']
@@ -120,7 +135,8 @@ split_factor = 0.8
 # 교육 및 검증 데이터 준비
 training = training_data[0:int(rows * split_factor)]
 validation = training_data[int(rows * split_factor):]
-
+len(training)
+len(validation)
 
 ### Choosing a Model(모델 정의)
 
@@ -152,21 +168,29 @@ def evaluate_accuracy(data_iterator, model, L):
         loss_avg = (loss_avg * i + nd.mean(loss).asscalar()) / (i + 1)
     return loss_avg
 
+
+
 # cpu or gpu
 ctx = mx.cpu()
 
-
+# batch_size가 작으면 학습시간이 늘어난다
+# 여기서는 batch_size를 실험을 통해서 48이 적당하다는 것을 알아냄
+# 데이터의 값은 5분마다 발생하고 48은 4시간과 같습니다
 batch_size = 48
 
 training_data_batches = mx.gluon.data.DataLoader(training, batch_size, shuffle=False)
 validation_data_batches = mx.gluon.data.DataLoader(validation, batch_size, shuffle=False)
 
-
+# Xavier는 모든 layers에서 gradient scale이 거의 동일하게 유지하도록 설계됨
 model.collect_params().initialize(mx.init.Xavier(), ctx=ctx)
 
+# 이 모델에는 sgd 최적화 함수, 학습률은 0.01이 가장 최적으로 보임
+# sgd에 비해 너무 작지 않고, 최적화에 시간이 오래 걸리지 않으며 너무 크지 않는다
+# 그래서 loss function의 최소값을 넘지 않는다
 trainer = gluon.Trainer(model.collect_params(), 'sgd', {'learning_rate': 0.01})
 
 
+### Let’s run the training loop and plot MSEs
 epochs = 15
 training_mse = []
 validation_mse = []
@@ -187,6 +211,8 @@ for epoch in range(epochs):
     validation_mse.append(evaluate_accuracy(validation_data_batches, model, L))
 
 
+training_mse
+validation_mse
 
 
 def calculate_reconstruction_errors(input_data, L):
