@@ -14,8 +14,8 @@ from sklearn.metrics import f1_score
 
 # 데이터 불러오기
 
-df1 = pd.read_csv('dataset/통신구/crack1.csv')
-df2 = pd.read_csv('dataset/통신구/crack2.csv')
+df1 = pd.read_csv('dataset/통신구/crack1_변형.csv')
+df2 = pd.read_csv('dataset/통신구/crack2_변형.csv')
 len(df1), len(df2)
 
 df2 = df2[:len(df1)]
@@ -25,8 +25,8 @@ len(df1), len(df2)
 df1['time'] = pd.to_datetime(df1['time'])
 df1.head()
 df1.tail()
-df1.time.plot()
-plt.show()
+
+
 df2['time'] = df1['time']
 df2.head()
 
@@ -53,16 +53,10 @@ def prepare_plot(data_frame):
     ax.scatter(data_frame['time_epoch'], data_frame['value'], s=8, color='blue')  # scatter 산포그래프
 
     labled_anomalies = data_frame.loc[data_frame['anomaly_label'] == 1, ['time_epoch', 'value']]
-    ax.scatter(labled_anomalies['time_epoch'], labled_anomalies['value'], s=200, color='green')
+    ax.scatter(labled_anomalies['time_epoch'], labled_anomalies['value'], s=100, color='green')
 
     return ax
 
-df1.info()
-df1.set_index('time', inplace = True)
-
-df1['time'].plot()
-fig, ax = plt.subplots()
-ax.scatter(df1['time_epoch'], df1['value'], s=8, color='blue')
 figsize(16, 7)
 prepare_plot(df1)
 plt.show()
@@ -73,17 +67,15 @@ plt.show()
 # visualization
 
 figsize(16, 7)
-prepare_plot(test_data_frame)
+prepare_plot(df2)
 plt.show()
 
 
 # Preparing a dataset
-training_data_frame['value_no_anomaly'] = training_data_frame[training_data_frame['anomaly_label'] == 0]['value']
+df1['value_no_anomaly'] = df1[df1['anomaly_label'] == 0]['value']
 
-training_data_frame.loc[training_data_frame['anomaly_label'] == 1, ['value_no_anomaly']]
+df1.loc[df1['anomaly_label'] == 1, ['value_no_anomaly']]
 
-training_data_frame['value_no_anomaly'][945]
-training_data_frame['value_no_anomaly'][946]
 
 ########################################################################################################################
 # nan값 채우기
@@ -95,9 +87,9 @@ training_data_frame['value_no_anomaly'][946]
 # 결측값을 평균값으로 채우기:    df.fillna(df.mean())
 ########################################################################################################################
 
-training_data_frame['value_no_anomaly'] = training_data_frame['value_no_anomaly'].fillna(method='ffill') # method 앞 값으로 채우기
+df1['value_no_anomaly'] = df1['value_no_anomaly'].fillna(method='ffill') # method 앞 값으로 채우기
 
-training_data_frame['value'] = training_data_frame['value_no_anomaly']
+df1['value'] = df1['value_no_anomaly']
 features = ['value']
 
 feature_count = len(features)
@@ -112,9 +104,9 @@ feature_count = len(features)
 ########################################################################################################################
 
 data_scaler = preprocessing.StandardScaler()
-data_scaler.fit(training_data_frame[features].values.astype(np.float32))
+data_scaler.fit(df1[features].values.astype(np.float32))
 
-training_data = data_scaler.transform(training_data_frame[features].values.astype(np.float32))
+training_data = data_scaler.transform(df1[features].values.astype(np.float32))
 
 rows = len(training_data)
 
@@ -164,7 +156,7 @@ ctx = mx.cpu()
 # batch_size가 작으면 학습시간이 늘어난다
 # 여기서는 batch_size를 실험을 통해서 48이 적당하다는 것을 알아냄
 # 데이터의 값은 5분마다 발생하고 48은 4시간과 같습니다
-batch_size = 48
+batch_size = 60
 
 training_data_batches = mx.gluon.data.DataLoader(training, batch_size, shuffle=False)
 validation_data_batches = mx.gluon.data.DataLoader(validation, batch_size, shuffle=False)
@@ -225,7 +217,7 @@ training_reconstruction_errors = calculate_reconstruction_errors(all_training_da
 # 3*sigma: 평균에서 3*표준편차를 더한 값
 reconstruction_error_threshold = np.mean(training_reconstruction_errors) + 3 * np.std(training_reconstruction_errors)
 
-test_data = data_scaler.fit_transform(test_data_frame[features].values.astype(np.float32))
+test_data = data_scaler.fit_transform(df2[features].values.astype(np.float32))
 
 test_data_batches = mx.gluon.data.DataLoader(test_data, batch_size, shuffle=False)
 
@@ -235,20 +227,20 @@ test_reconstruction_errors = calculate_reconstruction_errors(test_data_batches, 
 
 predicted_test_anomalies = list(map(lambda v: 1 if v > reconstruction_error_threshold else 0, test_reconstruction_errors))
 
-test_data_frame['anomaly_predicted'] = predicted_test_anomalies
+df2['anomaly_predicted'] = predicted_test_anomalies
 
 
 figsize(16, 7)
 
-ax = prepare_plot(test_data_frame)
+ax = prepare_plot(df2)
 
-predicted_anomalies = test_data_frame.loc[test_data_frame['anomaly_predicted'] == 1, ['time_epoch', 'value']]
+predicted_anomalies = df2.loc[df2['anomaly_predicted'] == 1, ['time_epoch', 'value']]
 ax.scatter(predicted_anomalies['time_epoch'], predicted_anomalies['value'], s=50, color='red')
 
 plt.show()
 
 
-test_labels = test_data_frame['anomaly_label'].astype(np.float32)
+test_labels = df2['anomaly_label'].astype(np.float32)
 
 score = f1_score(test_labels, predicted_test_anomalies)
 print('F1 score: ' + str(score))
