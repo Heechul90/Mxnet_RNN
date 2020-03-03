@@ -64,6 +64,7 @@ convert_timestamps(test_data_frame)
 training_data_frame.head()
 training_data_frame.tail()
 
+
 # When plotting the data we mark anomalies with green dots:
 
 def prepare_plot(data_frame):
@@ -192,7 +193,7 @@ trainer = gluon.Trainer(model.collect_params(), 'sgd', {'learning_rate': 0.01})
 
 ### Let’s run the training loop and plot MSEs
 epochs = 15
-training_mse = []
+training_mse = []        # 평균 제곱 오차를 기록
 validation_mse = []
 
 for epoch in range(epochs):
@@ -211,18 +212,21 @@ for epoch in range(epochs):
     validation_mse.append(evaluate_accuracy(validation_data_batches, model, L))
 
 
-training_mse
-validation_mse
 
-
+### prediction
+# (input value, predicted output value)가 각각 쌍으로 autoencoder로 사용할 때
+# reconstruction error를 가질 수 있다
+# training set으로 reconstruction error를 구할 수 있다.
+# reconstruction error가 전체 training set에서 값에서 멀리 벗어날 경우를 비정상이라고 본다
+# 이 경우에는, 3-sigma approach를 사용하는 것이 좋다
+# reconstruction error가 3-sigma deviation보다 높으면 비정상이다
 def calculate_reconstruction_errors(input_data, L):
     reconstruction_errors = []
     for i, data in enumerate(input_data):
         input = data.as_in_context(ctx).reshape((-1, feature_count, 1))
         predicted_value = model(input)
         reconstruction_error = L(predicted_value, input).asnumpy().flatten()
-        reconstruction_errors = np.append(
-            reconstruction_errors, reconstruction_error)
+        reconstruction_errors = np.append(reconstruction_errors, reconstruction_error)
 
     return reconstruction_errors
 
@@ -230,9 +234,9 @@ def calculate_reconstruction_errors(input_data, L):
 all_training_data = mx.gluon.data.DataLoader(training_data.astype(np.float32), batch_size, shuffle=False)
 
 training_reconstruction_errors = calculate_reconstruction_errors(all_training_data, L)
+
+# 3*sigma: 평균에서 3*표준편차를 더한 값
 reconstruction_error_threshold = np.mean(training_reconstruction_errors) + 3 * np.std(training_reconstruction_errors)
-
-
 
 test_data = data_scaler.fit_transform(test_data_frame[features].values.astype(np.float32))
 
