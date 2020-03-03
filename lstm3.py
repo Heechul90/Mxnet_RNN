@@ -26,38 +26,64 @@ path = './dataset/통신구/'
 
 # Anomaly labels are stored separately from the data values. Let’s load the train and test datasets and label the values with pandas:
 
-raw_data = pd.read_csv(path + 'water_level_bugfix.csv_2.csv')
+raw_data = pd.read_csv(path + 'water_level_fixed.csv')
 data = raw_data.copy()
 
 data.head()
+data.set_index('time', inplace = True)
+
+# label
+for thres in data.columns:
+    data.loc[data[thres] >= 0.443, "label"] = -1
+    data.loc[data[thres] <= 0.17, "label"] = -1
+
+data[data['label'].isnull]
+data.loc[data['label'] != -1, "label"] = 1
+data.loc[data['value'] <= 0.17, "value"]
+data.loc[data['value'] >= 0.443, "value"]
+
+data.head()
+data.value.plot()
+data.label.plot()
+
+########################################################################################################################
+
+#####
+test = pd.read_csv(path + 'level.csv')
+test.set_index('time', inplace = True)
+test.head()
+test.value1.plot()
+test.label.plot()
 
 # trainin data
-training_data_frame = data[['time', 'value1']]
-training_data_frame.rename(columns = {'value1': 'value'}, inplace = True)
+training_data_frame = data[['time', 'value', 'label']]
+
 training_data_frame.set_index('time', inplace = True)
 training_data_frame.value.plot()
+training_data_frame.label.plot()
 
-for thres in training_data_frame.columns:
-    training_data_frame.loc[training_data_frame[thres] >= 0.443, "label"] = -1
-    training_data_frame.loc[training_data_frame[thres] <= 0.17, "label"] = -1
-
-training_data_frame.loc[training_data_frame['label'] != -1, "label"] = 1
-training_data_frame.loc[training_data_frame['label'].isnull(), ['value']]
+#
+# for thres in training_data_frame.columns:
+#     training_data_frame.loc[training_data_frame[thres] >= 0.443, "label"] = -1
+#     training_data_frame.loc[training_data_frame[thres] <= 0.17, "label"] = -1
+#
+# training_data_frame.loc[training_data_frame['label'] != -1, "label"] = 1
+# training_data_frame.loc[training_data_frame['label'].isnull(), ['value']]
 
 
 # test data
-test_data_frame = data[['time', 'value2']]
-test_data_frame.rename(columns = {'value2': 'value'}, inplace = True)
+test_data_frame = data[['time', 'value', 'label']]
 test_data_frame.set_index('time', inplace = True)
 test_data_frame.value.plot()
+test_data_frame.label.plot()
 
-for thres in test_data_frame.columns:
-    test_data_frame.loc[test_data_frame[thres] >= 0.443, "label"] = -1
-    test_data_frame.loc[test_data_frame[thres] <= 0.17, "label"] = -1
-
-test_data_frame.loc[test_data_frame['label'] != -1, "label"] = 1
-test_data_frame.loc[test_data_frame['label'].isnull(), ['value']]
-test_data_frame.reset_index().info()
+# for thres in test_data_frame.columns:
+#     test_data_frame.loc[test_data_frame[thres] >= 0.443, "label"] = -1
+#     test_data_frame.loc[test_data_frame[thres] <= 0.17, "label"] = -1
+#
+# test_data_frame.loc[test_data_frame['label'] != -1, "label"] = 1
+# test_data_frame.loc[test_data_frame['label'].isnull(), ['value']]
+# test_data_frame.reset_index().info()
 
 # As we can see, it contains a timestamp, a CPU utilization value, and labels noting if this value is an anomaly.
 
@@ -80,7 +106,7 @@ def prepare_plot(data_frame):
     ax.scatter(data_frame['time_epoch'],
                data_frame['value'], s=8, color='blue')
 
-    labled_anomalies = data_frame.loc[data_frame['label'] == -1, ['time_epoch', 'value']]
+    labled_anomalies = data_frame.loc[data_frame['label'] == 1, ['time_epoch', 'value']]
     ax.scatter(labled_anomalies['time_epoch'],
                labled_anomalies['value'], s=200, color='green')
 
