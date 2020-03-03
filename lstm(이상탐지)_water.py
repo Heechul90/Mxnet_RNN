@@ -16,6 +16,14 @@ from sklearn.metrics import f1_score
 
 df1 = pd.read_csv('dataset/통신구/crack1_변형.csv')
 df2 = pd.read_csv('dataset/통신구/crack2_변형.csv')
+df3 = pd.read_csv('dataset/통신구/strain1.csv')
+df4 = pd.read_csv('dataset/통신구/strain2.csv')
+df5 = pd.read_csv('dataset/통신구/strain3.csv')
+df3.plot()
+df4.plot()
+df5.plot()
+
+
 len(df1), len(df2)
 
 df2 = df2[:len(df1)]
