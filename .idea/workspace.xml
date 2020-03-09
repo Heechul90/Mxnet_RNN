@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27b1f18a-5e69-4c93-891f-f3fe758fd0f2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Prediction/Electric_Energy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Prediction/PRSA.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lstm(tensorflow).py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lstm(이상탐지).py" beforeDir="false" afterPath="$PROJECT_DIR$/Anomaly_Detection/cpu_usage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lstm(이상탐지)_water.py" beforeDir="false" afterPath="$PROJECT_DIR$/Anomaly_Detection/crack.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lstm.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lstm3.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Prediction/Electric_Energy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Prediction/Electric_Energy.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,14 +14,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Prediction/Electric_Energy.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="48" column="9" lean-forward="true" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
+            <state relative-caret-position="2904">
+              <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="88" />
               <folding>
                 <element signature="e#23#42#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Prediction/PRSA.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="759">
+              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
             </state>
           </provider>
         </entry>
@@ -85,6 +90,7 @@
         <option value="$PROJECT_DIR$/Anomaly_Detection/crack.py" />
         <option value="$PROJECT_DIR$/Anomaly_Detection/cpu_usage.py" />
         <option value="$PROJECT_DIR$/Prediction/Electric_Energy.py" />
+        <option value="$PROJECT_DIR$/Prediction/PRSA.py" />
       </list>
     </option>
   </component>
@@ -100,7 +106,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -122,6 +127,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -202,14 +208,21 @@
       <option name="project" value="LOCAL" />
       <updated>1583394516930</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="lstmcell">
+      <created>1583713183283</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1583713183283</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -222,7 +235,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49947146" weight="0.32962137" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5010571" side_tool="true" weight="0.42873052" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="10" sideWeight="0.4989429" visible="true" weight="0.3585746" />
+      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.4989429" visible="true" weight="0.23942094" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -298,8 +311,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Prediction/Electric_Energy.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="48" column="9" lean-forward="true" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
+        <state relative-caret-position="2904">
+          <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="88" />
           <folding>
             <element signature="e#23#42#0" expanded="true" />
           </folding>
@@ -320,6 +333,13 @@
           <folding>
             <element signature="e#72#91#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Prediction/PRSA.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="759">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
         </state>
       </provider>
     </entry>

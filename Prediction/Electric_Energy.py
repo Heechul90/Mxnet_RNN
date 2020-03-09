@@ -34,16 +34,34 @@ df = raw_data.copy()
 
 window = 24*7
 horizon = 24
+idx = 10
 
-data = []
-label = []
+# data = []
+# label = []
+#
+# for i in range(0, len(df) - (window+horizon)):
+#     x = df[i:i + window]
+#     y = df[i + window + horizon]
+#
+#     data.append(x)
+#     label.append(y)
 
-for i in range(0, len(df) - (window+horizon)):
-    x = df[i:i + window]
-    y = df[i + window + horizon]
+def labeling(datafram, idx, window, horizon):
+    """
+    :param int idx: index of the item
+    :return: single item in 'TC' layout
+    :rtype np.ndarray
+    """
+    assert idx < len(datafram)
+    data = datafram[idx:idx + window]
+    label = datafram[idx + window + horizon - 1]
 
-    data.append(x)
-    label.append(y)
+    return data, label
+
+
+dataset = labeling(datafram=df, idx=idx, window=window, horizon=horizon)
+dataset
+
 
 type(data[0])
 len(data)
@@ -53,7 +71,7 @@ data = mx.nd.array(data)
 label = mx.nd.array(label)
 
 batch_size = 48
-training_data_batches = mx.gluon.data.DataLoader([data, label], batch_size, shuffle=False)
+training_data_batches = mx.gluon.data.DataLoader(dataset, batch_size, shuffle=False)
 
 
 for d, l in training_data_batches:
