@@ -1,4 +1,5 @@
-##### Time Series Anomaly Detection with LSTM in MXNet
+##### 시계열 데이터 이상탐지
+
 ### 함수, 모듈 불러오기
 import pandas as pd
 import numpy as np
@@ -140,11 +141,16 @@ training_data_frame['value_no_anomaly'][945]
 training_data_frame['value_no_anomaly'][946]
 training_data_frame['value_no_anomaly'][947]
 
+training_data_frame[['value_no_anomaly', 'anomaly_label']][940:950]
+
+training_data_frame.columns
+
+
+
 training_data_frame['value_no_anomaly'] = training_data_frame['value_no_anomaly'].fillna(method='ffill') # method 앞 값으로 채우기
 
 training_data_frame['value'] = training_data_frame['value_no_anomaly']
 features = ['value']
-
 feature_count = len(features)
 
 ########################################################################################################################
@@ -158,7 +164,6 @@ feature_count = len(features)
 
 data_scaler = preprocessing.StandardScaler()
 data_scaler.fit(training_data_frame[features].values.astype(np.float32))
-
 training_data = data_scaler.transform(training_data_frame[features].values.astype(np.float32))
 
 rows = len(training_data)
@@ -227,7 +232,7 @@ trainer = gluon.Trainer(model.collect_params(), 'sgd', {'learning_rate': 0.01})
 
 
 ### Let’s run the training loop and plot MSEs
-epochs = 30
+epochs = 90
 training_mse = []        # 평균 제곱 오차를 기록
 validation_mse = []
 
@@ -249,7 +254,9 @@ for epoch in range(epochs):
 plt.plot(training_mse, color='r')
 plt.plot(validation_mse, color='b')
 
+print(training_mse[-1], validation_mse[-1])
 
+len(training_mse)
 
 ### prediction
 # (input value, predicted output value)가 각각 쌍으로 autoencoder로 사용할 때
@@ -275,9 +282,11 @@ all_training_data = mx.gluon.data.DataLoader(training_data.astype(np.float32), b
 
 # 트레이닝셋과 reconstruction의 오차를 구함
 training_reconstruction_errors = calculate_reconstruction_errors(all_training_data, L)
+len(training_reconstruction_errors)
 
 # 3*sigma: 평균에서 3*표준편차를 더한 값
 reconstruction_error_threshold = np.mean(training_reconstruction_errors) + 3 * np.std(training_reconstruction_errors)
+reconstruction_error_threshold
 
 # 테스트셋 데이터 표준화
 test_data = data_scaler.fit_transform(test_data_frame[features].values.astype(np.float32))
@@ -295,6 +304,8 @@ len(predicted_test_anomalies)
 
 
 test_data_frame['anomaly_predicted'] = predicted_test_anomalies
+test_data_frame.columns
+test_data_frame[['anomaly_label', 'anomaly_predicted']]
 
 test_data_frame[test_data_frame['anomaly_predicted'] == 1]
 test_data_frame[test_data_frame['value'] >= 18.3333]
