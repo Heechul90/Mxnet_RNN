@@ -133,7 +133,7 @@ training_data_frame[training_data_frame['value_no_anomaly'].isnull()]
 
 # 결측값을 특정 값으로 채우기:   df.fillna(0)
 # 결측값을 앞 방향으로 채우기:   df.fillna(method: 'ffill' or 'pad')
-# 결측값을 뒷 방향으로 채우기:   df.fillna(method: 'bill' or 'backfill')
+# 결측값을 뒷 방향으로 채우기:   df.fillna(method: 'bfill' or 'backfill')
 # 결측값을 채우는 회수 제한하기: df.fillna(limit=1)
 # 결측값을 평균값으로 채우기:    df.fillna(df['value'].mean())
 ########################################################################################################################
@@ -232,7 +232,7 @@ trainer = gluon.Trainer(model.collect_params(), 'sgd', {'learning_rate': 0.01})
 
 
 ### Let’s run the training loop and plot MSEs
-epochs = 90
+epochs = 30
 training_mse = []        # 평균 제곱 오차를 기록
 validation_mse = []
 
