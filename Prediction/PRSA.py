@@ -1,7 +1,7 @@
-
-
-
-
+###
+import pandas as pd
+import numpy as np
+import mxnet as mx
 
 ### Dataset description:
 # No:     row number                    # 넘버
@@ -20,4 +20,6 @@
 
 
 ### Load and pre-process th data
-
+data = pd.read_csv('dataset/pollution/PRSA_data_2010.1.1-2014.12.31.csv',
+                   sep=',')
+data

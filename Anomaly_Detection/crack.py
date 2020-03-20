@@ -295,3 +295,4 @@ test_labels = df2['anomaly_label'].astype(np.float32)
 
 score = f1_score(test_labels, predicted_test_anomalies)
 print('F1 score: ' + str(score))
+

@@ -20,7 +20,8 @@ batch_size = 32
 dropout = 0.5
 lr = 0.003
 epochs = 5
-ctx = mx.gpu(0)
+# ctx = mx.gpu(0)
+ctx = mx.cpu(0)
 optimizer_ = "sgd"
 
 
