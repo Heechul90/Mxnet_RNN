@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27b1f18a-5e69-4c93-891f-f3fe758fd0f2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Gluonnlp/tractice.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Text_generation/text.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,11 +12,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Text_generation/text.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+            <state relative-caret-position="1188">
+              <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -26,11 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Gluonnlp/tractice.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+            <state relative-caret-position="198">
+              <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -90,7 +88,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -107,11 +104,12 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Preprocessing" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
@@ -218,7 +216,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49947146" visible="true" weight="0.49665925" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49947146" visible="true" weight="0.389755" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5010571" side_tool="true" weight="0.42873052" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.4989429" weight="0.454343" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -325,8 +323,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Text_generation/text.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+        <state relative-caret-position="1188">
+          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
@@ -335,8 +333,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Gluonnlp/tractice.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        <state relative-caret-position="198">
+          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
